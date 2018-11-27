@@ -5,5 +5,6 @@ if __name__ == "__main__":
     camera = PiCamera()
     
     camera.start_preview()
-    sleep(10)
+    sleep(5)
+    camera.capture('./image.jpg')
     camera.stop_preview()
