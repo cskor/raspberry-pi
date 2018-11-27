@@ -65,14 +65,4 @@ def generateEmailBody(filename = None):
     body += "\nYour friends at C & C Security."
     return body
 
-if __name__ == "__main__":
-    fromAddress = "CandCSec370@gmail.com"
-    toAddress = "CandCSec370@gmail.com"
-    password = #PUT GMAIL PASSWORD HERE
-    
-    attachFile = ["""IMAGE FILE NAME HERE, IMAGE PATHWAY HERE"""]
-    contents = ["Attempted Access", generateEmailBody(attachFile[0])]
-    
-    sendEmail(fromAddress, toAddress, password, contents, attachFile)
-    print("Your email to %s has been sent." % toAddress)
     
