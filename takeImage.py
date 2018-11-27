@@ -12,7 +12,7 @@ def takePhoto():
 
 def sendPhoto():
     fromAddress = "CandCSec370@gmail.com"
-    toAddress = "cassidy.skor@gmail.com"
+    toAddress = "pearcenatalie96@gmail.com"
     password = "grounds4lyfe"
     
     attachFile = ["intruder.jpg", "./intruder.jpg"]
