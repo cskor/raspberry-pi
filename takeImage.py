@@ -6,15 +6,15 @@ def takePhoto():
     camera = PiCamera()
     
     camera.start_preview()
-    sleep(10)
+    sleep(5)
     camera.capture('./intruder.jpg')
     camera.stop_preview()
 
 def sendPhoto():
     fromAddress = "CandCSec370@gmail.com"
-    toAddress = "pearcenatalie96@gmail.com"
-    password = "grounds4lyfe"
-    
+    toAddress = "CandCSec370@gmail.com"
+    password = """FILL IN PASSWORD HERE"""
+ 
     attachFile = ["intruder.jpg", "./intruder.jpg"]
     contents = ["Attempted Access", emailImage.generateEmailBody(attachFile[0])]
     
