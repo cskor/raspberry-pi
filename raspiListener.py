@@ -64,9 +64,6 @@ def readWavFile(filename='default.wav', debug=False, key=2303):
 		elif firstChannelAudio[i] > max:
 			max = firstChannelAudio[i]
 
-	print("MAX VALUE: " + str(max))
-	print("MIN VALUE: " + str(min))
-
 	# this is 16-bit signed track, now normalized on [-1,1)
 	normalizedData = [(element/(2**15.)) for element in firstChannelAudio]
 
@@ -84,6 +81,9 @@ def readWavFile(filename='default.wav', debug=False, key=2303):
 			
 
 	print("MAX FREQUENCY: " + str(maxFreq) + "Hz")
+	if (abs(key-maxFreq) < 3):
+		toggleLock()
+	else: shutDown()
 
 	plt.plot(abs(analyzedData[:(len(analyzedData)//2)]),'r')
 	plt.show()
