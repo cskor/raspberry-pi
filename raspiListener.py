@@ -13,9 +13,9 @@ def main():
 
 
 def writeInputToFile(filename="default.wav"):
-	CHUNK = 1024
+	CHUNK = 512
 	FORMAT = pyaudio.paInt16
-	CHANNELS = 2
+	CHANNELS = 1
 	RATE = 44100
 	RECORD_SECONDS = 1
 	WAVE_OUTPUT_FILENAME = filename
@@ -24,9 +24,9 @@ def writeInputToFile(filename="default.wav"):
 
 	stream = p.open(format=FORMAT,
                 channels=CHANNELS,
+		input_device_index=2,
                 rate=RATE,
                 input=True,
-		input_device_index=2,
                 frames_per_buffer=CHUNK)
 
 	print("* recording")
@@ -54,8 +54,8 @@ def writeInputToFile(filename="default.wav"):
 def readWavFile(filename='default.wav', debug=False, key=803):
 	frequencyRate, data = wav.read("default.wav") # load the data
 
-	firstChannelAudio = data.T[0]
-	print(firstChannelAudio[20000])
+	firstChannelAudio = data.T
+	#print(firstChannelAudio[20000])
 	min = 0
 	max = 0
 
@@ -86,8 +86,8 @@ def readWavFile(filename='default.wav', debug=False, key=803):
 		toggleLock()
 	else: shutDown()
 
-	plt.plot(abs(analyzedData[:(len(analyzedData)//2)]),'r')
-	plt.show()
+	#plt.plot(abs(analyzedData[:(len(analyzedData)//2)]),'r')
+	#plt.show()
 	
 def toggleLock():
 	global locked
