@@ -50,7 +50,7 @@ def writeInputToFile(filename="default.wav"):
 	wf.close()
 
 
-def readWavFile(filename='default.wav', debug=False, key=2303):
+def readWavFile(filename='default.wav', debug=False, key=803):
 	frequencyRate, data = wav.read("default.wav") # load the data
 
 	firstChannelAudio = data.T[0]
