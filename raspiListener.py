@@ -26,6 +26,7 @@ def writeInputToFile(filename="default.wav"):
                 channels=CHANNELS,
                 rate=RATE,
                 input=True,
+		input_device_index=4,
                 frames_per_buffer=CHUNK)
 
 	print("* recording")
