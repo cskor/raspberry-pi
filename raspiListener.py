@@ -52,42 +52,43 @@ def writeInputToFile(filename="default.wav"):
 
 
 def readWavFile(filename='default.wav', debug=False, key=803):
-	frequencyRate, data = wav.read("default.wav") # load the data
-
-	firstChannelAudio = data.T
-	#print(firstChannelAudio[20000])
-	min = 0
-	max = 0
-
-	for i in range(0, len(firstChannelAudio)):
-		if firstChannelAudio[i] < min:
-			min = firstChannelAudio[i]
-		elif firstChannelAudio[i] > max:
-			max = firstChannelAudio[i]
-
-	# this is 16-bit signed track, now normalized on [-1,1)
-	normalizedData = [(element/(2**15.)) for element in firstChannelAudio]
-
-	# analyzed FFT data from normalized data
-	analyzedData = fft(normalizedData)
-
-	# find max freq from complex numbers
-	maxSpl = -1
-	maxFreq = -1
-	for i in range(0, len(analyzedData)//2):
-		# each index is a frequency
-		if abs(analyzedData[i]) > maxSpl:
-			maxSpl = abs(analyzedData[i])
-			maxFreq = i
-			
-
-	print("MAX FREQUENCY: " + str(maxFreq) + "Hz")
-	if (abs(key-maxFreq) < 3):
-		toggleLock()
-	else: shutDown()
-
-	#plt.plot(abs(analyzedData[:(len(analyzedData)//2)]),'r')
-	#plt.show()
+    	frequencyRate, data = wav.read("default.wav") # load the data
+    
+    	firstChannelAudio = data.T
+    	#print(firstChannelAudio[20000])
+    	min = 0
+    	max = 0
+    
+    	for i in range(0, len(firstChannelAudio)):
+    		if firstChannelAudio[i] < min:
+    			min = firstChannelAudio[i]
+    		elif firstChannelAudio[i] > max:
+    			max = firstChannelAudio[i]
+    
+    	# this is 16-bit signed track, now normalized on [-1,1)
+    	normalizedData = [(element/(2**15.)) for element in firstChannelAudio]
+    
+    	# analyzed FFT data from normalized data
+    	analyzedData = fft(normalizedData)
+    
+    	# find max freq from complex numbers
+    	maxSpl = -1
+    	maxFreq = -1
+    	for i in range(0, len(analyzedData)//2):
+    		# each index is a frequency
+    		if abs(analyzedData[i]) > maxSpl:
+    			maxSpl = abs(analyzedData[i])
+    			maxFreq = i
+    			
+    
+    	print("MAX FREQUENCY: " + str(maxFreq) + "Hz")
+    	if (abs(key-maxFreq) < 3):
+    		toggleLock()
+    	else: shutDown()
+        
+    	#plt.plot(abs(analyzedData[:(len(analyzedData)//2)]),'r')
+    	#plt.show()
+    	return maxFreq
 	
 def toggleLock():
 	global locked
