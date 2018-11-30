@@ -12,8 +12,8 @@ def takePhoto():
 
 def sendPhoto():
     fromAddress = "CandCSec370@gmail.com"
-    toAddress = "CandCSec370@gmail.com"
-    password = """FILL IN PASSWORD HERE"""
+    toAddress = "cassidy.skor@gmail.com"
+    password  = "grounds4lyfe"
  
     attachFile = ["intruder.jpg", "./intruder.jpg"]
     contents = ["Attempted Access", emailImage.generateEmailBody(attachFile[0])]
