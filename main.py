@@ -3,6 +3,7 @@ import takeImage
 
 MAX_FREQ = 600
 TO_ADDRESS = "cassidy.skor@gmail.com"
+AUDIO_FILE = 'unlock.wav'
 
 if __name__ == "__main__":
     """Currently, we are just recording a sound and if the max freq of that
@@ -10,10 +11,10 @@ if __name__ == "__main__":
         and to run the intruder code 
     """
     #Record the audio as file unlock.wav
-    raspiListener.writeInputToFile('unlock.wav')
+    raspiListener.writeInputToFile(AUDIO_FILE)
     
     #Reading the wav file and saving the max freq
-    recordedMaxFreq = raspiListener.readWavFile()
+    recordedMaxFreq = raspiListener.readWavFile(AUDIO_FILE)
     
     #This is the current version of an intruder
     if(recordedMaxFreq > MAX_FREQ):

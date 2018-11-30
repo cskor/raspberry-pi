@@ -52,7 +52,7 @@ def writeInputToFile(filename="default.wav"):
 
 
 def readWavFile(filename='default.wav', debug=False, key=803):
-    	frequencyRate, data = wav.read("default.wav") # load the data
+    	frequencyRate, data = wav.read(filename) # load the data
     
     	firstChannelAudio = data.T
     	#print(firstChannelAudio[20000])
@@ -82,9 +82,9 @@ def readWavFile(filename='default.wav', debug=False, key=803):
     			
     
     	print("MAX FREQUENCY: " + str(maxFreq) + "Hz")
-    	if (abs(key-maxFreq) < 3):
-    		toggleLock()
-    	else: shutDown()
+    	#if (abs(key-maxFreq) < 3):
+    	#	toggleLock()
+    	#else: shutDown()
         
     	#plt.plot(abs(analyzedData[:(len(analyzedData)//2)]),'r')
     	#plt.show()
