@@ -20,7 +20,8 @@ def EXIT():
     quit()
 
 def placeCamera():
-
+    """This function places the camera on the right side of the gui"""
+    
     guiWidth = root.winfo_screenwidth()*SPACE_FACTOR
     guiHeight = root.winfo_screenheight()*SPACE_FACTOR
     
@@ -29,8 +30,7 @@ def placeCamera():
     
     x = (root.winfo_screenwidth() * 0.5) #+ root.winfo_screenwidth()*0.1
     y = (root.winfo_screenheight() * 0.5) - (cameraHeight * 0.5)
-    print(guiWidth, guiHeight, root.winfo_screenwidth(), root.winfo_screenheight())
-    print(x,y,cameraWidth, cameraHeight)
+
     camera.preview_window=(int(x), int(y), int(cameraWidth), int(cameraHeight))
 
 def centerWindow():
@@ -48,19 +48,24 @@ def centerWindow():
 
     root.geometry('%dx%d+%d+%d' % (width, height, x, y))
     root.resizable(width=False, height=False)
+    return width, height
 
 
 root = tk.Tk()
 camera = picamera.PiCamera()
-centerWindow()
-root.title("Camera Button Test")
+width, _ = centerWindow()
+root.title("C & C Security")
 
-root.buttonframe = tk.Frame(root)
-root.buttonframe.grid(row=5, column=3, columnspan=2)
+header = tk.Text(root, height = 10, width = width)
+header.pack()
+header.insert("Welcome to your C & C Security Device!")
 
-tk.Button(root.buttonframe, text='Start Camera', command=CameraON).grid(row=1, column = 1)
-tk.Button(root.buttonframe, text='Kill Camera', command=CameraOFF).grid(row=1, column = 2)
-tk.Button(root.buttonframe, text='Exit Program', command=EXIT).grid(row=1, column = 3)
+#root.buttonframe = tk.Frame(root)
+#root.buttonframe.grid(row=5, column=3, columnspan=2)
+
+#tk.Button(root.buttonframe, text='Start Camera', command=CameraON).grid(row=1, column = 1)
+#tk.Button(root.buttonframe, text='Kill Camera', command=CameraOFF).grid(row=1, column = 2)
+#tk.Button(root.buttonframe, text='Exit Program', command=EXIT).grid(row=1, column = 3)
 
 
 #enable next line to lock window in place                     
