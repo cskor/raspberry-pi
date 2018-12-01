@@ -3,14 +3,13 @@
 from __future__ import print_function
 from PIL import Image
 from PIL import ImageTk
-import Tkinter as tki
+import tkinter as tki
 import threading 
-import datetime
 import imutils
 import cv2
 import os
 
-class VideoStream:
+class PhotoApp:
     def __init__(self, vs, outputPath):
         """Store the video stream object and output path, then initialize
         the most recently read frame, thread from reading frames and the
@@ -83,10 +82,10 @@ class VideoStream:
     def onClose(self):
         """This function sets the stop event, cleans up the camera and allows the rest
             of the quit process to continue"""
-            print("[INFO] closing..")
-            self.stopEvent.set()
-            self.vs.stop()
-            self.root.quit()
+        print("[INFO] closing..")
+        self.stopEvent.set()
+        self.vs.stop()
+        self.root.quit()
             
         
         

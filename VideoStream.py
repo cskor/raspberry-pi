@@ -10,7 +10,7 @@ import imutils
 import cv2
 import os
 
-class VideoStream:
+class PhotoApp:
     def __init__(self, vs, outputPath):
         """Store the video stream object and output path, then initialize
         the most recently read frame, thread from reading frames and the
