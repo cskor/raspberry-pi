@@ -6,7 +6,7 @@ SPACE_FACTOR = 0.8
 
 def CameraON():
     camera.preview_fullscreen=False
-    camera.preview_window=(90,100, 320, 240)
+    placeCamera()
     camera.resolution=(640,480)
     camera.start_preview()
     
@@ -19,6 +19,20 @@ def EXIT():
     camera.close()
     quit()
 
+def placeCamera():
+
+    guiWidth = root.winfo_screenwidth()*SPACE_FACTOR
+    guiHeight = root.winfo_screenheight()*SPACE_FACTOR
+    
+    cameraWidth = guiWidth*SPACE_FACTOR * 0.5
+    cameraHeight = guiHeight*SPACE_FACTOR * 0.5
+    
+    x = (root.winfo_screenwidth() * 0.5) + (root.winfo_screenwidth()*0.1)
+    y = (root.winfo_screenheight() * 0.5) + (cameraHeight * 0.5)
+            
+    camera.preview_window=(x, y, cameraWidth, cameraHeight)
+    
+    
 
 def centerWindow():
     """This function places the GUI in the center of the screen
