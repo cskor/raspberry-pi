@@ -1,8 +1,5 @@
+import Tkinter
 from picamera import PiCamera
-from time import sleep
-from PIL import Image
-from PIL import ImageTk
-import tkinter as tki
 
 class PiCameraApp():
     def __init__(self, root, camera, title):
@@ -24,7 +21,7 @@ class PiCameraApp():
 
 if __name__ == '__main__':
     print("starting")
-    win = tki.Tk()
+    win = Tkinter.Tk()
     camera = PiCamera()
     
     win.minsize(1024, 768)
