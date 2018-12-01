@@ -24,15 +24,13 @@ def placeCamera():
     guiWidth = root.winfo_screenwidth()*SPACE_FACTOR
     guiHeight = root.winfo_screenheight()*SPACE_FACTOR
     
-    cameraWidth = guiWidth*SPACE_FACTOR/2
-    cameraHeight = guiHeight*SPACE_FACTOR/2
+    cameraWidth = guiWidth*SPACE_FACTOR*0.5
+    cameraHeight = guiHeight*SPACE_FACTOR*0.5
     
-    x = (root.winfo_screenwidth()/2) + int(root.winfo_screenwidth()*0.1)
-    y = (root.winfo_screenheight()/2) + (cameraHeight/2)
+    x = (root.winfo_screenwidth() * 0.5) + root.winfo_screenwidth()*0.1
+    y = (root.winfo_screenheight() * 0.5) + (cameraHeight * 0.5)
             
-    camera.preview_window=(x, y, cameraWidth, cameraHeight)
-    
-    
+    camera.preview_window=(int(x), int(y), int(cameraWidth), int(cameraHeight))
 
 def centerWindow():
     """This function places the GUI in the center of the screen
