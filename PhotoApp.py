@@ -87,6 +87,7 @@ class PhotoApp:
         self.vs.stop()
         self.root.quit()
             
+    
         
         
         
