@@ -1,7 +1,5 @@
 import Tkinter as tk
-import RPi.GPIO as GPIO
 import picamera
-from time import sleep
 
 camera = picamera.PiCamera()
 
@@ -21,8 +19,20 @@ def EXIT():
     quit()
 
 root = tk.Tk()
+
+screenWidth = root.winfo_screenwidth()
+screenHeight = root.winfo_screenheight()
+
+guiWidth = 500
+guiHeight = 300
+
+x = (screenWidth/2) - (guiWidth/2)
+y = (screenHeight/2) - (guiHeight/2)
+
+root.geometry('%dx%d+%d+%d' % (guiWidth, guiHeight, x, y))
+
 root.resizable(width=False, height=False)
-root.geometry("320x300+89+50")
+#root.geometry("320x300+89+50")
 root.title("Camera Button Test")
 
 root.buttonframe = tk.Frame(root)
