@@ -3,7 +3,6 @@ from picamera import PiCamera
 
 class PiCameraApp():
     def __init__(self, root, camera, title):
-        self.grid(padx=5, pady=5)
         self.root = root
         
         self.camera = camera

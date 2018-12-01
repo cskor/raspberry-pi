@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 import time
 
 RATE = 44100
-CHUNK = int(RATE/20) # RATE / number of updates per second
+CHUNK = int(RATE/10) # RATE / number of updates per second
 
 def plotStream():
     p=pyaudio.PyAudio()
@@ -20,9 +20,9 @@ def plotStream():
     line, = ax.plot(data)
 
     while True: # Main loop which updates the plot line
-        data = np.fromstring(stream.read(CHUNK),dtype=np.int16)
+        data = np.fromstring(stream.read(CHUNK,dtype=np.int16)
         line.set_ydata(data)
-        plt.pause(0.001)
+        plt.pause(0.0001)
 
     plt.close()       
     stream.stop_stream()
