@@ -1,7 +1,8 @@
 import Tkinter as tk
 import picamera
 
-camera = picamera.PiCamera()
+SPACE_FACTOR = 0.8
+
 
 def CameraON():
     camera.preview_fullscreen=False
@@ -18,14 +19,17 @@ def EXIT():
     camera.close()
     quit()
 
-root = tk.Tk()
-def centerWindow(width, height):
+
+def centerWindow():
     """This function places the GUI in the center of the screen
             Inputs: width, height
     """
     screenWidth = root.winfo_screenwidth()
     screenHeight = root.winfo_screenheight()
-
+    
+    width = screenWidth*SPACE_FACTOR
+    height = screenHeight*SPACE_FACTOR
+    
     x = (screenWidth/2) - (width/2)
     y = (screenHeight/2) - (height/2)
 
@@ -33,8 +37,9 @@ def centerWindow(width, height):
     root.resizable(width=False, height=False)
 
 
-#root.geometry("320x300+89+50")
-centerWindow(800, 600)
+root = tk.Tk()
+camera = picamera.PiCamera()
+centerWindow()
 root.title("Camera Button Test")
 
 root.buttonframe = tk.Frame(root)
