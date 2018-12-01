@@ -19,20 +19,22 @@ def EXIT():
     quit()
 
 root = tk.Tk()
+def centerWindow(width, height):
+    """This function places the GUI in the center of the screen
+            Inputs: width, height
+    """
+    screenWidth = root.winfo_screenwidth()
+    screenHeight = root.winfo_screenheight()
 
-screenWidth = root.winfo_screenwidth()
-screenHeight = root.winfo_screenheight()
+    x = (screenWidth/2) - (width/2)
+    y = (screenHeight/2) - (height/2)
 
-guiWidth = 500
-guiHeight = 300
+    root.geometry('%dx%d+%d+%d' % (width, height, x, y))
+    root.resizable(width=False, height=False)
 
-x = (screenWidth/2) - (guiWidth/2)
-y = (screenHeight/2) - (guiHeight/2)
 
-root.geometry('%dx%d+%d+%d' % (guiWidth, guiHeight, x, y))
-
-root.resizable(width=False, height=False)
 #root.geometry("320x300+89+50")
+centerWindow(800, 600)
 root.title("Camera Button Test")
 
 root.buttonframe = tk.Frame(root)
