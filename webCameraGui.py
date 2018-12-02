@@ -1,10 +1,13 @@
 #Based off of: Displaying a video feed with OpenCv and Tkinter -- Adrian Rosebrock
 
 from __future__ import print_function
+from imutils.video import VideoStream
 from PIL import Image
 from PIL import ImageTk
 import tkinter as tki
+import argparse
 import threading 
+import time
 import imutils
 import cv2
 import os
@@ -86,6 +89,22 @@ class PhotoApp:
         self.stopEvent.set()
         self.vs.stop()
         self.root.quit()
+        
+if __name__ == "__main__":
+    #Construct the argument parse and parse the arguments
+    ap = argparse.ArgumentParser()
+    ap.add_argument("-p", "--picamera", type=int, default=-1, help="whether or not the PiCamera should be used")
+    args = vars(ap.parse_args())
+
+    #Initialize the video stream and allow the camera sensor to warmup
+    print("[INFO] warming up camera...")
+    vs = VideoStream(usePiCamera=args["picamera"]>0).start()
+    time.sleep(2.0)
+
+    #Start the app
+    app = PhotoApp(vs, "./")
+    app.root.mainloop()
+
             
     
         
