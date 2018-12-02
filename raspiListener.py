@@ -9,14 +9,14 @@ locked = False
 
 def main():
 	writeInputToFile()
-	readWavFile()
+	# readWavFile()
 
 
 def writeInputToFile(filename="default.wav"):
-	CHUNK = 512
+	CHUNK = 1024
 	FORMAT = pyaudio.paInt16
 	CHANNELS = 1
-	RATE = 44100
+	RATE = 16000
 	RECORD_SECONDS = 1
 	WAVE_OUTPUT_FILENAME = filename
 

@@ -1,15 +1,19 @@
-import Tkinter as tk
+import tkinter as tk
+from PIL import Image, ImageTk
 import picamera
-import raspiListener
 from time import sleep
+import argparse
+
+import raspiListener
 import takeImage
+import parseResults
 
 MAX_FREQ = 600
-TO_ADDRESS = "cassidy.skor@gmail.com"
 AUDIO_FILE = 'unlock.wav'
 SPACE_FACTOR = 0.8
 
 def cameraOn():
+    canvas.delete(lockImage)
     camera.preview_fullscreen=False
     placeCamera()
     #TODO play with resolutions
@@ -87,6 +91,15 @@ def centerWindow():
     return width, height
 
 if __name__ == "__main__":
+    #Optional argument for email to send message to
+    ap = argparse.ArgumentParser()
+    ap.add_argument("email", nargs='?')
+    args = vars(ap.parse_args())
+    if args['email']:
+        toAddress = args['email']
+    else:
+        toAddress = "CandCSec370@gmail.com"
+
     #Create the GUI
     root = tk.Tk()
     
@@ -94,11 +107,23 @@ if __name__ == "__main__":
     camera = picamera.PiCamera()
     
     #Center the Gui
-    width, _ = centerWindow()
+    width, height = centerWindow()
     
     #GUI Layout
     root.title("C & C Security")
     tk.Label(root, text="WELCOME TO YOUR C & C SECURITY DEVICE", fg="black",font="Unbuntu 36 bold").pack(fill=tk.X, pady=5)
+       
+    #Place a lock image on the GUI
+    canvas = tk.Canvas(root, width=400, height=550)
+    canvas.pack()
+
+    #Resize the image and place in canvase
+    img = Image.open("./images/lock.png")
+    img = img.resize((400,400))
+    img = ImageTk.PhotoImage(img)
+    lockImage = canvas.create_image(0, 50, anchor=tk.NW, image=img)
+
+    #Option to start program or exit program
     tk.Button(root, text="EXIT PROGRAM", command=EXIT, font="Unbuntu 24 bold").pack(side=tk.BOTTOM, fill=tk.X)
     tk.Button(root, text="UNLOCK YOUR DEVICE", command=unlockDevice, font = "Unbuntu 24 bold").pack(side=tk.BOTTOM, fill=tk.X)
 
