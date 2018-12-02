@@ -45,7 +45,6 @@ def cameraOFF():
     camera.stop_preview()
     
 def EXIT():
-    sleep(5)
     root.destroy
     camera.stop_preview()
     camera.close()
@@ -100,6 +99,7 @@ if __name__ == "__main__":
     #GUI Layout
     root.title("C & C Security")
     tk.Label(root, text="WELCOME TO YOUR C & C SECURITY DEVICE", fg="black",font="Unbuntu 36 bold").pack(fill=tk.X, pady=5)
+    tk.Button(root, text="EXIT PROGRAM", command=EXIT, font="Unbuntu 24 bold").pack(side=tk.BOTTOM, fill=tk.X)
     tk.Button(root, text="UNLOCK YOUR DEVICE", command=unlockDevice, font = "Unbuntu 24 bold").pack(side=tk.BOTTOM, fill=tk.X)
 
     #enable next line to lock window in place                     
