@@ -1,6 +1,7 @@
 import Tkinter as tk
 import picamera
 import raspiListener
+from time import sleep
 import takeImage
 
 MAX_FREQ = 600
@@ -34,11 +35,17 @@ def unlockDevice():
         
     else:
         print("Your device has been unlocked.")
-    
-def CameraOFF():
+        #Turn off the camera
+        cameraOFF()
+        
+        #Alert the user their device has been unlocked
+        tk.Label(root, text="YOUR DEVICE HAS BEEN UNLOCKED", fg="red", font="Unbuntu 32 bold").pack(fill=tk.X)
+
+def cameraOFF():
     camera.stop_preview()
     
 def EXIT():
+    sleep(5)
     root.destroy
     camera.stop_preview()
     camera.close()

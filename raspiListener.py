@@ -86,8 +86,8 @@ def readWavFile(filename='default.wav', debug=False, key=803):
     	#	toggleLock()
     	#else: shutDown()
         
-    	plt.plot(abs(analyzedData[:(len(analyzedData)//2)]),'r')
-    	plt.show()
+    	#plt.plot(abs(analyzedData[:(len(analyzedData)//2)]),'r')
+    	#plt.show()
     	return maxFreq
 	
 def toggleLock():
