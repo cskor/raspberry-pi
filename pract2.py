@@ -57,16 +57,17 @@ root.title("C & C Security")
 
 header = tk.Label(root, text="WELCOME TO YOUR C & C SECURITY DEVICE", fg="black",font="Unbuntu 36 bold")
 header.pack(fill=tk.X, pady=5)
-#header = tk.Text(root, height = 10, width = int(width))
-#header.pack()
-#header.insert(tk.END, "Welcome to your C & C Security Device!")
+startCamera = tk.Button(root, text="Start Camera", command=CameraON, font="Unbuntu 24 bold")
+startCamera.pack(side=tk.BOTTOM) 
+killCamera = tk.Button(root, text="Kill Camera", command=CameraOFF, font="Unbuntu 24 bold")
+killCamera.pack(side=tk.BOTTOM)
+#root.buttonframe = tk.Frame(root)
+#root.buttonframe.grid(row=5, column=3)
 
-root.buttonframe = tk.Frame(root)
-root.buttonframe.grid(row=5, column=3)
-
-tk.Button(root.buttonframe, text='Start Camera', command=CameraON).grid(row=5, column = 1)
-tk.Button(root.buttonframe, text='Kill Camera', command=CameraOFF).grid(row=5, column = 2)
-tk.Button(root.buttonframe, text='Exit Program', command=EXIT).grid(row=5, column = 3)
+#tk.Label(root, text="WELCOME TO YOUR C & C SECURITY DEVICE", fg="black",font="Unbuntu 36 bold").grid(row=1)
+#tk.Button(root.buttonframe, text='Start Camera', command=CameraON).grid(row=5, column = 1)
+#tk.Button(root.buttonframe, text='Kill Camera', command=CameraOFF).grid(row=5, column = 2)
+#tk.Button(root.buttonframe, text='Exit Program', command=EXIT).grid(row=5, column = 3)
 
 
 #enable next line to lock window in place                     
