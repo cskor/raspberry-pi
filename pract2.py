@@ -1,13 +1,38 @@
 import Tkinter as tk
 import picamera
+import raspiListener
+import takeImage
 
+MAX_FREQ = 600
+TO_ADDRESS = "cassidy.skor@gmail.com"
+AUDIO_FILE = 'unlock.wav'
 SPACE_FACTOR = 0.8
 
-def CameraON():
+def cameraOn():
     camera.preview_fullscreen=False
     placeCamera()
     camera.resolution=(640,480)
     camera.start_preview()
+    
+def unlockDevice():
+    cameraOn()
+    #Record the audio as file unlock.wav
+    raspiListener.writeInputToFile(AUDIO_FILE)
+    
+    #Reading the wav file and saving the max freq
+    recordedMaxFreq = raspiListener.readWavFile(AUDIO_FILE)
+    
+    #This is the current version of an intruder
+    if(recordedMaxFreq > MAX_FREQ):
+        #Take the photo of the intruder
+        camera.capture('./intruder.jpg')
+        
+        #Send the email to the supplied address
+        takeImage.sendPhoto(TO_ADDRESS)
+        
+    else:
+        print("Your device has been unlocked.")
+    
     
 def CameraOFF():
     camera.stop_preview()
@@ -55,12 +80,14 @@ camera = picamera.PiCamera()
 width, _ = centerWindow()
 root.title("C & C Security")
 
-header = tk.Label(root, text="WELCOME TO YOUR C & C SECURITY DEVICE", fg="black",font="Unbuntu 36 bold")
-header.pack(fill=tk.X, pady=5)
-startCamera = tk.Button(root, text="Start Camera", command=CameraON, font="Unbuntu 24 bold")
-startCamera.pack(side=tk.BOTTOM) 
-killCamera = tk.Button(root, text="Kill Camera", command=CameraOFF, font="Unbuntu 24 bold")
-killCamera.pack(side=tk.BOTTOM)
+tk.Label(root, text="WELCOME TO YOUR C & C SECURITY DEVICE", fg="black",font="Unbuntu 36 bold").pack(fill=tk.X, pady=5)
+tk.Button(root, text="UNLOCK YOUR DEVICE", command=unlockDevice, font = "Unbuntu 24 bold").pack(side=tk.BOTTOM, fill=tk.X)
+
+
+#startCamera = tk.Button(root, text="Start Camera", command=CameraON, font="Unbuntu 24 bold")
+#startCamera.pack(side=tk.BOTTOM) 
+#killCamera = tk.Button(root, text="Kill Camera", command=CameraOFF, font="Unbuntu 24 bold")
+#killCamera.pack(side=tk.BOTTOM)
 #root.buttonframe = tk.Frame(root)
 #root.buttonframe.grid(row=5, column=3)
 
