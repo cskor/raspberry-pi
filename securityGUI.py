@@ -7,10 +7,15 @@ import argparse
 import raspiListener
 import takeImage
 import parseResults
+import runTensorflow
+import evaluateCommand
 
-MAX_FREQ = 600
 AUDIO_FILE = 'unlock.wav'
 SPACE_FACTOR = 0.8
+OUTPUT_FILE = './results.txt'
+ACCEPTED_WORDS = ['yes', 'down', 'left']
+#ACCEPTED_WORDS = ['cassidy', 'caleb', 'shrideep']
+THRESHOLD = .65
 
 def cameraOn():
     canvas.delete(lockImage)
@@ -26,19 +31,24 @@ def unlockDevice():
     #Record the audio as file unlock.wav
     raspiListener.writeInputToFile(AUDIO_FILE)
     
-    #Reading the wav file and saving the max freq
-    recordedMaxFreq = raspiListener.readWavFile(AUDIO_FILE)
+    #Run tensorflow on the recorded file
+    runTensorflow.execute(AUDIO_FILE)
     
-    #This is the current version of an intruder
-    if(recordedMaxFreq > MAX_FREQ):
+    #Parse the results of the tensorflow
+    word, certainty = parseResults.parseResults(OUTPUT_FILE)
+    
+    #Evaluate where to unlock or not
+    unlock = evaluateCommand.evaluate(word, certainty, THRESHOLD, ACCEPTED_WORDS)
+   
+    #Unauthorized access to account
+    if not unlock:
         #Take the photo of the intruder
         camera.capture('./intruder.jpg')
         
         #Send the email to the supplied address
-        takeImage.sendPhoto(TO_ADDRESS)
+        takeImage.sendPhoto(toAddress)
         
     else:
-        print("Your device has been unlocked.")
         #Turn off the camera
         cameraOFF()
         
