@@ -4,6 +4,7 @@ import picamera
 from time import sleep
 import argparse
 
+import vuMeter
 import raspiListener
 import takeImage
 import parseResults
@@ -18,15 +19,21 @@ ACCEPTED_WORDS = ['yes', 'down', 'left']
 THRESHOLD = .65
 
 def cameraOn():
-    canvas.delete(lockImage)
     camera.preview_fullscreen=False
     placeCamera()
-    #TODO play with resolutions
     camera.resolution=(640,480)
     camera.start_preview()
     
 def unlockDevice():
+    
     cameraOn()
+    #Disable unlock device button
+    unlockButton.config(state=tk.DISABLED)    
+
+    #Remove lock image from screen
+    #placeVoiceWaves()
+    canvas.delete(lockImage)
+    canvas.update()
     
     #Record the audio as file unlock.wav
     raspiListener.writeInputToFile(AUDIO_FILE)
@@ -39,7 +46,7 @@ def unlockDevice():
     
     #Evaluate where to unlock or not
     unlock = evaluateCommand.evaluate(word, certainty, THRESHOLD, ACCEPTED_WORDS)
-   
+
     #Unauthorized access to account
     if not unlock:
         #Take the photo of the intruder
@@ -47,11 +54,30 @@ def unlockDevice():
         
         #Send the email to the supplied address
         takeImage.sendPhoto(toAddress)
+
+        #Turn off the camera
+        cameraOFF()
         
+        #Display the lock image
+        lockImg = Image.open('./images/lock.png')
+        lockImg = lockImg.resize((400, 400))
+        lockImg = ImageTk.PhotoImage(lockImg)
+        lImg = canvas.create_image(56, 30, anchor=tk.NW, image=lockImg)
+        canvas.image =lockImg
+        
+        #Alert the user the device remains locked
+        tk.Label(root, text="AUTHENTICATION FAILED. DEVICE REMAINS LOCKED", fg="red", font="Unbuntu 32 bold").pack(fill=tk.X)
     else:
         #Turn off the camera
         cameraOFF()
         
+        #Display the unlock image
+        unlockImg = Image.open('./images/unlock.png')
+        unlockImg = unlockImg.resize((400, 400))
+        unlockImg = ImageTk.PhotoImage(unlockImg)
+        uImg = canvas.create_image(0, 50, anchor=tk.NW, image=unlockImg)
+        canvas.image=unlockImg
+
         #Alert the user their device has been unlocked
         tk.Label(root, text="YOUR DEVICE HAS BEEN UNLOCKED", fg="red", font="Unbuntu 32 bold").pack(fill=tk.X)
 
@@ -64,6 +90,23 @@ def EXIT():
     camera.close()
     quit()
 
+def placeVoiceWaves():
+    """This function places the voice wave graph on the left side of the gui"""
+       
+    #Calculate the height and width plot
+    #Width and height are in inches and we are using 100 px per inch
+    waveWidth = (root.winfo_screenwidth()*SPACE_FACTOR*0.5)/100
+    waveHeight = (root.winfo_screenheight()*SPACE_FACTOR*0.5)/100
+
+    #Place the plot on the left side of the GUI
+    x = root.winfo_screenwidth() - waveWidth
+    y = root.winfo_screenheight() - waveHeight
+    
+    print(waveWidth, waveHeight, x, y)
+    vuMeter.plotStream(3, 3, 100, 100)
+    #Generate the plot
+    #vuMeter.plotStream(waveWidth, waveHeight, x, y)
+
 def placeCamera():
     """This function places the camera on the right side of the gui"""
     
@@ -72,14 +115,20 @@ def placeCamera():
     guiHeight = root.winfo_screenheight()*SPACE_FACTOR
     
     #The camera will take up half of the GUI space
-    cameraWidth = guiWidth*0.5
-    cameraHeight = guiHeight*0.5
+    #cameraWidth = guiWidth*0.5
+    #cameraHeight = guiHeight*0.5
     
-    #Place the camera on the right side of GUI centered
-    x = (root.winfo_screenwidth() * 0.5) 
-    y = (root.winfo_screenheight() * 0.5) - (cameraHeight * 0.5)
-    camera.preview_window=(int(x), int(y), int(cameraWidth), int(cameraHeight))
+    cameraWidth = guiWidth * 0.7
+    cameraHeight = guiHeight * 0.7
 
+    #Place the camera on the right side of GUI centered
+    #x = (root.winfo_screenwidth() * 0.5) 
+    y = (root.winfo_screenheight() * 0.55) - (cameraHeight * 0.5)
+    x = (root.winfo_screenwidth() * 0.55) - (cameraWidth * 0.55)    
+    print(guiWidth, guiHeight)
+    print(x,y, cameraWidth, cameraHeight)
+    camera.preview_window=(int(x), int(y), int(cameraWidth), int(cameraHeight))
+    
 def centerWindow():
     """This function places the GUI in the center of the screen
             Outputs: width, height
@@ -124,18 +173,19 @@ if __name__ == "__main__":
     tk.Label(root, text="WELCOME TO YOUR C & C SECURITY DEVICE", fg="black",font="Unbuntu 36 bold").pack(fill=tk.X, pady=5)
        
     #Place a lock image on the GUI
-    canvas = tk.Canvas(root, width=400, height=550)
+    canvas = tk.Canvas(root, width=512, height=542)
     canvas.pack()
-
+    
     #Resize the image and place in canvase
     img = Image.open("./images/lock.png")
     img = img.resize((400,400))
     img = ImageTk.PhotoImage(img)
-    lockImage = canvas.create_image(0, 50, anchor=tk.NW, image=img)
-
+    lockImage = canvas.create_image(56, 30, anchor=tk.NW, image=img)
+    
     #Option to start program or exit program
     tk.Button(root, text="EXIT PROGRAM", command=EXIT, font="Unbuntu 24 bold").pack(side=tk.BOTTOM, fill=tk.X)
-    tk.Button(root, text="UNLOCK YOUR DEVICE", command=unlockDevice, font = "Unbuntu 24 bold").pack(side=tk.BOTTOM, fill=tk.X)
+    unlockButton = tk.Button(root, text="UNLOCK YOUR DEVICE", command=unlockDevice, font = "Unbuntu 24 bold")
+    unlockButton.pack(side=tk.BOTTOM, fill=tk.X)
 
     #enable next line to lock window in place                     
     #root.overrideredirect(True)
